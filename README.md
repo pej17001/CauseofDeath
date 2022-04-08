@@ -3,3 +3,7 @@ In the past decades, the habits and preferences of people have changed as time g
 Book URL: https://pej17001.github.io/CauseofDeath/
 
 This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.
+
+
+
+Jing Wang and Peillin Jing
