@@ -1,0 +1,141 @@
+# 5293_Final_Project
+
+Jing Wang
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(plyr)
+library(ggplot2)
+data<-read.delim('Underlying Cause of Death, 1999-2020.txt',header=T)
+df<-na.omit(data)[,-1]
+disease.split<-split(df,df$ICD.10.113.Cause.List)
+d_sum<-function(df){
+  return(sum(df$Deaths))
+}
+disease.sum<-sapply(disease.split,d_sum)
+disease<-c('HIV','Malignant neoplasms','Septicemia','Tuberculosis','Viral hepatitis')
+barplot(disease.sum,names.arg=disease,main="Total Death")
+S_death<-aggregate(Deaths~State,data=df,sum)
+S_death<-arrange(S_death,Deaths)
+barplot(S_death$Deaths,names.arg=S_death$State,horiz = TRUE,main="State total Death")
+S_death_dis<-aggregate(Deaths~State+ICD.10.113.Cause.List,data=df,sum)
+state_dis.split<-split(S_death_dis,S_death_dis$State)
+max<-function(df){
+  return(df[which.max(df$Deaths),])
+}
+state_dis<-sapply(state_dis.split,max)
+state_dis<-t(state_dis)
+state_dis
+ggplot(S_death_dis, aes(x = State, y = Deaths, group = ICD.10.113.Cause.List),ordered=TRUE) + 
+  geom_col(aes(fill=ICD.10.113.Cause.List)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.25)) +
+  coord_flip()
+```
+```{r}
+df$DeathRate<-df$Deaths/df$Population
+disease.split<-split(df,df$ICD.10.113.Cause.List)
+d_sum<-function(df){
+  return(sum(df$DeathRate))
+}
+disease.sum<-sapply(disease.split,d_sum)
+disease<-c('HIV','Malignant neoplasms','Septicemia','Tuberculosis','Viral hepatitis')
+barplot(disease.sum,names.arg=disease,main="Total Death Rate")
+S_death_rate<-aggregate(DeathRate~State,data=df,sum)
+S_death_rate<-arrange(S_death_rate,DeathRate)
+barplot(S_death_rate$DeathRate,names.arg=S_death$State,horiz = TRUE,main="State total Deathrate")
+S_death_dis<-aggregate(DeathRate~State+ICD.10.113.Cause.List,data=df,sum)
+state_dis.split<-split(S_death_dis,S_death_dis$State)
+max<-function(df){
+  return(df[which.max(df$DeathRate),])
+}
+state_dis<-sapply(state_dis.split,max)
+state_dis<-t(state_dis)
+state_dis
+ggplot(S_death_dis, aes(x = State, y = DeathRate, group = ICD.10.113.Cause.List),ordered=TRUE) + 
+  geom_col(aes(fill=ICD.10.113.Cause.List)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.25)) +
+  coord_flip()
+```
+
+```{r}
+library(vcdExtra)
+theme_heat <- theme_classic() +
+  theme(axis.line = element_blank(),
+        axis.ticks = element_blank())
+
+ggplot(df, aes(Year, ICD.10.113.Cause.List, fill = DeathRate)) + 
+  geom_tile(color = "white") +
+  coord_equal() + theme_heat
+
+ggplot(df, aes(State, ICD.10.113.Cause.List, fill = DeathRate)) + 
+  geom_tile(color = "white") +
+  coord_equal() + theme_heat
+
+ggplot(df, aes(Ten.Year.Age.Groups, ICD.10.113.Cause.List, fill = DeathRate)) + 
+  geom_tile(color = "white") +
+  coord_equal() + theme_heat
+
+ggplot(df, aes(Race, ICD.10.113.Cause.List, fill = DeathRate)) + 
+  geom_tile(color = "white") +
+  coord_equal() + theme_heat
+```
+
+```{r}
+ggplot(df, aes(x = Year, y = ICD.10.113.Cause.List)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~State) + theme_heat
+
+ggplot(df, aes(x = Year, y = State)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~ICD.10.113.Cause.List) + theme_heat
+```
+
+```{r}
+ggplot(df, aes(x = Ten.Year.Age.Groups, y = ICD.10.113.Cause.List)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~State) + theme_heat
+
+ggplot(df, aes(x = Ten.Year.Age.Groups, y = State)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~ICD.10.113.Cause.List) + theme_heat
+```
+
+```{r}
+ggplot(df, aes(x = Race, y = ICD.10.113.Cause.List)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~State) + theme_heat
+
+ggplot(df, aes(x = Race, y = State)) +
+   geom_tile(aes(fill = DeathRate), color = "white") +
+   coord_fixed() + facet_wrap(~ICD.10.113.Cause.List) + theme_heat
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(ggplot2)
+library(choroplethr)
+library(choroplethrMaps)
+```
+
+```{r}
+death <- S_death %>% as.data.frame() %>% 
+  transmute(region = tolower(`State`), value = Deaths)
+
+state_choropleth(death,
+                 title = "Deaths in each state",
+                 legend = "Deaths")
+```
+
+```{r}
+deathrate <- S_death_rate %>% as.data.frame() %>% 
+  transmute(region = tolower(`State`), value = DeathRate)
+
+state_choropleth(deathrate,
+                 title = "Death Rate in each State",
+                 legend = "Death Rate")
+```
