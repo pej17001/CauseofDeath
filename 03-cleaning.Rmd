@@ -1,1 +1,8 @@
 # Data transformation
+
+library(plyr)
+library(ggplot2)
+library(tidyverse)
+data1<-read.delim('Underlying Cause of Death, 1999-2020 (2).txt',header=T)
+data2<-read.delim('Underlying Cause of Death, 1999-2020 (3).txt',header=T)
+df<-rbind(data1,data2)
