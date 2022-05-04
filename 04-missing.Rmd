@@ -1,1 +1,7 @@
 # Missing values
+
+library(mi)
+x <- missing_data.frame(df)
+image(x)
+library(redav)
+plot_missing(df, percent = TRUE)
