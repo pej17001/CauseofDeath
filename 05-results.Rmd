@@ -1,2 +1,87 @@
 # Results
+```{r}
+df<-na.omit(df)[,-1]
+disease.split<-aggregate(Deaths~Cause.of.death,data=df,sum)
+disease.split<-arrange(disease.split, desc(Deaths))[1:5,]
+fivedisease<-unique(disease.split$Cause.of.death)
+barplot(disease.split$Deaths,names.arg=disease.split$Cause.of.death,horiz = TRUE,main="Total Death")
+S_death<-aggregate(Deaths~State,data=df,sum)
+S_death<-arrange(S_death,Deaths)
+barplot(S_death$Deaths,names.arg=S_death$State,horiz = TRUE,main="State total Death")
+S_death_dis<-aggregate(Deaths~State+Cause.of.death,data=df,sum)
+S_death_dis<-S_death_dis[S_death_dis$Cause.of.death==fivedisease,]
+state_dis.split<-split(S_death_dis,S_death_dis$State)
+max<-function(df){
+  return(df[which.max(df$Deaths),])
+}
+state_dis<-sapply(state_dis.split,max)
+state_dis<-as.matrix(t(state_dis))
+state_dis
+ggplot(S_death_dis, aes(x = State, y = Deaths, group = Cause.of.death),ordered=TRUE) + 
+  geom_col(aes(fill=Cause.of.death)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.25)) +
+  coord_flip()
+```
+```{r}
+df$DeathRate<-df$Deaths/df$Population*100000
+disease.split<-aggregate(DeathRate~Cause.of.death,data=df,sum)
+disease.split<-arrange(disease.split, desc(DeathRate))[1:5,]
+fivediseaseRate<-unique(disease.split$Cause.of.death)
+barplot(disease.split$DeathRate,names.arg=disease.split$Cause.of.death,horiz = TRUE,main="Total Death Rate")
+S_death_rate<-aggregate(DeathRate~State,data=df,sum)
+S_death_rate<-arrange(S_death_rate,DeathRate)
+barplot(S_death_rate$DeathRate,names.arg=S_death$State,horiz = TRUE,main="State total Deathrate")
+S_death_dis<-aggregate(DeathRate~State+Cause.of.death,data=df,sum)
+S_death_dis<-S_death_dis[S_death_dis$Cause.of.death==fivediseaseRate, ]
+state_dis.split<-split(S_death_dis,S_death_dis$State)
+max<-function(df){
+  return(df[which.max(df$DeathRate),])
+}
+state_dis<-sapply(state_dis.split,max)
+state_dis<-t(state_dis)
+state_dis
+ggplot(S_death_dis, aes(x = State, y = DeathRate, group = Cause.of.death),ordered=TRUE) + 
+  geom_col(aes(fill=Cause.of.death)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.25)) +
+  coord_flip()
+```
 
+```{r}
+library(vcdExtra)
+theme_heat <- theme_classic() +
+  theme(axis.line = element_blank(),
+        axis.ticks = element_blank())
+
+df<-df[df$Cause.of.death==fivediseaseRate,]
+
+ggplot(df, aes(State, Cause.of.death, fill = DeathRate)) + 
+  geom_tile(color = "white") +
+  coord_equal() + theme_heat
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(ggplot2)
+library(choroplethr)
+library(choroplethrMaps)
+```
+
+```{r}
+death <- S_death %>% as.data.frame() %>% 
+  transmute(region = tolower(`State`), value = Deaths)
+
+state_choropleth(death,
+                 title = "Deaths in each state",
+                 legend = "Deaths")
+```
+
+```{r}
+deathrate <- S_death_rate %>% as.data.frame() %>% 
+  transmute(region = tolower(`State`), value = DeathRate)
+
+state_choropleth(deathrate,
+                 title = "Death Rate in each State",
+                 legend = "Death Rate")
+```
