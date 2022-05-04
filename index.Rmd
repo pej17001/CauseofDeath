@@ -1,5 +1,5 @@
 ---
-title: "Top 10 causes of death"
+title: "Top 5 causes of death"
 author: "Peilin Jing, Jing Wang"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site

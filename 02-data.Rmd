@@ -3,13 +3,23 @@
 https://wonder.cdc.gov/wonder/help/ucd.html
 
 Location: HHS Regions, Census Regions, Census Divisions, State, County
+
 Age Groups: 10 year age groups, 5 year age groups, single-year age groups and infant age groupsRace: American Indian or Alaskan Native, Asian / Pacific Islander, Black or African American, White
+
 Hispanic Origin: Hispanic or Latino, Not Hispanic or Latino, Not stated
+
 Gender (Sex): Female, Male
+
 Year of death: 1999-2020
+
 Month of death: January through December
+
 Weekday of death: Sunday through Saturday, Unknown
+
 Autopsy performed: No, Yes, Unknown
+
 Place of Death: Medical Facility - Inpatient, Medical Facility - Outpatient or ER, Medical Facility - Dead on Arrival, Medical Facility - Status Unknown (years 1999-2002 only), Decedent's home, Hospice Facility (years 2003 and later only), Nursing home/long term care, Other, Place of death unknown
+
 Cause of Death: underlying cause of death - ICD-10 codes, Drug/Alcohol Induced Causes, Injury Intent and Mechanism groups, 113 Selected Causes, 130 Selected Causes (for infants), 15 Leading Causes
+
 Urbanization: classifies population density and other factors at the county level - pick between the 2006 or the 2013 NCHS Urban-Rural Classification Scheme for Counties
