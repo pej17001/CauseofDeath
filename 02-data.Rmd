@@ -2,9 +2,8 @@
 
 https://wonder.cdc.gov/wonder/help/ucd.html
 
-# Location: HHS Regions, Census Regions, Census Divisions, State, County
-# Age Groups: 10 year age groups, 5 year age groups, single-year age groups and infant age groups
-# Race: American Indian or Alaskan Native, Asian / Pacific Islander, Black or African American, White
+Location: HHS Regions, Census Regions, Census Divisions, State, County
+Age Groups: 10 year age groups, 5 year age groups, single-year age groups and infant age groupsRace: American Indian or Alaskan Native, Asian / Pacific Islander, Black or African American, White
 Hispanic Origin: Hispanic or Latino, Not Hispanic or Latino, Not stated
 Gender (Sex): Female, Male
 Year of death: 1999-2020
