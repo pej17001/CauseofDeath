@@ -1,7 +1,7 @@
 # Results
 
 ```{r}
-df<-na.omit(df)[,-1]
+df<-na.omit(df)
 disease.split<-aggregate(Deaths~Cause.of.death,data=df,sum)
 disease.split<-arrange(disease.split, desc(Deaths))[1:5,]
 fivedisease<-unique(disease.split$Cause.of.death)
