@@ -1,5 +1,14 @@
 # Results
 ```{r}
+library(plyr)
+library(ggplot2)
+library(tidyverse)
+data1<-read.delim('Underlying Cause of Death, 1999-2020 (2).txt',header=T)
+data2<-read.delim('Underlying Cause of Death, 1999-2020 (3).txt',header=T)
+df<-rbind(data1,data2)
+```
+
+```{r}
 df<-na.omit(df)[,-1]
 disease.split<-aggregate(Deaths~Cause.of.death,data=df,sum)
 disease.split<-arrange(disease.split, desc(Deaths))[1:5,]
